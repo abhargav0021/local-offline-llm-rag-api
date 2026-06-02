@@ -1,0 +1,43 @@
+services:
+  ollama:
+    image: local-ollama:offline
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks:
+      - local_only
+
+  api:
+    image: local-llm-api:offline
+    depends_on:
+      ollama:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      OFFLINE_MODE: "true"
+      DISABLE_CHROMA_TELEMETRY: "true"
+      OLLAMA_BASE_URL: http://ollama:11434
+    volumes:
+      - chroma_data:/app/.chroma
+    ports:
+      - "127.0.0.1:${APP_PORT:-8000}:${APP_PORT:-8000}"
+    restart: unless-stopped
+    networks:
+      - local_only
+
+networks:
+  local_only:
+    internal: true
+
+volumes:
+  ollama_data:
+  chroma_data:

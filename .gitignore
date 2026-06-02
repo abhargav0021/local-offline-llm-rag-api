@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+.chroma/
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Local vector stores and Ollama/model artifacts
+ollama_data/
+chroma_data/
+.ollama/
+models/
+*.gguf
+*.safetensors
+*.pt
+*.pth
+*.onnx
+*.bin
+local-llm-offline-images.tar

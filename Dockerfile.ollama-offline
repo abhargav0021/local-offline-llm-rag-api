@@ -1,0 +1,17 @@
+FROM ollama/ollama:latest
+
+ARG OLLAMA_CHAT_MODEL=llama3.2
+ARG OLLAMA_EMBED_MODEL=nomic-embed-text
+
+RUN ollama serve & \
+    server_pid="$!" && \
+    sleep 5 && \
+    ollama pull "${OLLAMA_CHAT_MODEL}" && \
+    ollama pull "${OLLAMA_EMBED_MODEL}" && \
+    kill "${server_pid}" && \
+    wait "${server_pid}" || true
+
+EXPOSE 11434
+
+ENTRYPOINT ["/bin/ollama"]
+CMD ["serve"]
