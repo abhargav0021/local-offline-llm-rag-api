@@ -1,6 +1,6 @@
 # Local Offline LLM RAG API
 
-A production-style FastAPI project for running local chat, embeddings, and retrieval-augmented generation with Ollama and ChromaDB. It is built for portfolio demonstrations around local inference, offline deployment, and constrained-environment AI systems.
+A FastAPI project for running local chat, embeddings, and retrieval-augmented generation with Ollama and ChromaDB. It is built for portfolio demonstrations around local inference, offline deployment, and constrained-environment AI systems.
 
 ## What It Does
 
