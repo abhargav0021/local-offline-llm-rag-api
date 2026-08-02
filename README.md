@@ -2,6 +2,16 @@
 
 A FastAPI project for running local chat, embeddings, and retrieval-augmented generation with Ollama and ChromaDB. It is built for portfolio demonstrations around local inference, offline deployment, and constrained-environment AI systems.
 
+## Demo Status
+
+No public hosted demo is configured because this project is designed to run local model infrastructure and a local vector store. The best demo is a local Docker/API walkthrough:
+
+- API docs: `http://localhost:8000/docs`
+- Health endpoint: `GET /health`
+- RAG flow: `POST /rag/ingest` followed by `POST /rag/query`
+
+Recommended public alternative: add screenshots or a short recorded API demo instead of exposing an unauthenticated public RAG service.
+
 ## What It Does
 
 This service wraps a local Ollama runtime with a clean HTTP API:
@@ -14,6 +24,14 @@ This service wraps a local Ollama runtime with a clean HTTP API:
 - `GET /health` checks that Ollama is reachable and ChromaDB is accessible.
 
 The project includes Docker Compose, an offline Compose profile, structured JSON logging with request IDs, pytest coverage, and Makefile shortcuts.
+
+## Preview
+
+Add these screenshots before using the repository as a pinned portfolio project:
+
+- FastAPI Swagger UI at `/docs`.
+- Successful `/health` response showing Ollama and ChromaDB status.
+- Example `/rag/query` response with retrieved context.
 
 ## Why Local LLMs Matter
 
@@ -259,13 +277,54 @@ Run the API:
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Run tests:
+## Testing
+
+Run the API test suite:
+
+```bash
+python -m pytest tests -q
+```
+
+Or use the Makefile shortcut:
 
 ```bash
 make test
 ```
 
-The tests use FastAPI dependency overrides, so they do not call real Ollama or any cloud API.
+The tests use FastAPI dependency overrides, so they validate request/response behavior without calling a live Ollama service or cloud API.
+
+## Deployment
+
+Recommended hosting model: local Docker Compose, internal server, or controlled lab environment.
+
+This is not a good fit for Vercel, Netlify, or GitHub Pages because it requires:
+
+- A long-running FastAPI service.
+- Ollama model runtime.
+- Persistent ChromaDB storage.
+- Local model weights and enough disk/RAM for inference.
+
+For a public portfolio demo, use one of these safer options:
+
+- Recorded local demo video.
+- Screenshot walkthrough.
+- Temporary private Render/Railway-style deployment with authentication and no sensitive documents.
+
+## Known Limitations
+
+- No public live demo is available.
+- First startup may take time because Ollama models must be pulled.
+- Inference quality and latency depend on the local model and host machine.
+- The API is not currently protected with authentication.
+- Uploaded document storage is local and not multi-tenant.
+
+## Planned Improvements
+
+- Add authentication or API-key middleware for non-local deployments.
+- Add a small checked-in sample document for demo ingestion.
+- Add screenshots to the README.
+- Add request/response examples for failure cases.
+- Add load/performance notes for different local model sizes.
 
 ## Offline / Air-Gapped Deployment
 
@@ -325,3 +384,11 @@ git status --short
 ```
 
 Only source files, docs, config templates, and CI files should be staged.
+
+## License
+
+No license file is currently included. Add a license before encouraging reuse outside portfolio review.
+
+## Contact
+
+Maintained by [Bhargav Reddy](https://github.com/abhargav0021). Open an issue for questions or portfolio review feedback.
